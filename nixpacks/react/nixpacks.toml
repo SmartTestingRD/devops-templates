@@ -1,0 +1,13 @@
+[phases.setup]
+nixPkgs = ['nodejs']
+
+[phases.install]
+cmds = ['npm install']
+
+[phases.build]
+cmds = ['npm run build']
+
+[start]
+# Vite por defecto usa la carpeta dist/
+# Create React App por defecto usa la carpeta build/
+cmd = 'npx serve -s build -p 3000'

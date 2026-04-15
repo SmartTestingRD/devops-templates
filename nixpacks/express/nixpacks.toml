@@ -1,0 +1,13 @@
+[phases.setup]
+nixPkgs = ['nodejs']
+
+[phases.install]
+cmds = ['npm install']
+
+[phases.build]
+# Descomentar si el proyecto usa TypeScript y tiene un paso de build
+# cmds = ['npm run build']
+
+[start]
+# Asume que 'npm start' está definido en el package.json (ej. "node index.js" o "node dist/index.js")
+cmd = 'npm start'

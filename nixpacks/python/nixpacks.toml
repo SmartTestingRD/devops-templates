@@ -1,0 +1,12 @@
+[phases.setup]
+nixPkgs = ['python311', 'gcc']
+
+[phases.install]
+cmds = ['python -m venv /opt/venv', '. /opt/venv/bin/activate', 'pip install -r requirements.txt']
+
+[start]
+# Ejemplo para FastAPI / Uvicorn
+cmd = '. /opt/venv/bin/activate && uvicorn main:app --host 0.0.0.0 --port 8000'
+
+# Ejemplo para Flask / Gunicorn (comentar el anterior y descomentar este)
+# cmd = '. /opt/venv/bin/activate && gunicorn app:app --bind 0.0.0.0:8000'

@@ -1,0 +1,15 @@
+[phases.setup]
+nixPkgs = ['nodejs']
+
+[phases.install]
+# Instala las dependencias en la raíz del monorepo para linkear los workspaces
+cmds = ['npm install']
+
+[phases.build]
+# IMPORTANTE: El agente debe reemplazar "<nombre-del-workspace>" por el nombre real definido en el package.json
+cmds = ['npm run build --workspace=<nombre-del-workspace>']
+
+[start]
+# El agente debe reemplazar "<ruta-de-la-app>" por el path (ej: apps/frontend)
+# y ajustar el comando de inicio según el tipo de app (npm start, npx serve, etc.)
+cmd = 'cd <ruta-de-la-app> && npx serve -s dist -p 3000'

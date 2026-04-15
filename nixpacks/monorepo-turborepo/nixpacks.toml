@@ -1,0 +1,14 @@
+[phases.setup]
+nixPkgs = ['nodejs']
+
+[phases.install]
+# Instalar dependencias en la raíz del monorepo
+cmds = ['npm install']
+
+[phases.build]
+# IMPORTANTE: El agente debe reemplazar "<nombre-app>" por el nombre proyectado de Turborepo
+cmds = ['npx turbo run build --filter=<nombre-app>']
+
+[start]
+# El agente debe reemplazar "<ruta-de-la-app>" por el path real hacia el código compilado
+cmd = 'cd <ruta-de-la-app> && npm start'
