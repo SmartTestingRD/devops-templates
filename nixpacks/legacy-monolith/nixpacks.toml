@@ -1,0 +1,19 @@
+providers = ["node"]
+
+[variables]
+  NIXPACKS_NODE_VERSION = "20"
+
+[phases.setup]
+  nixPkgs = ["nodejs_20"]
+
+[phases.install]
+  cmds = [
+    "npm ci --omit=dev || npm install --omit=dev",
+    "npm ci --prefix frontend || npm install --prefix frontend"
+  ]
+
+[phases.build]
+  cmds = ["npm run build --prefix frontend"]
+
+[start]
+  cmd = "node src/server.js"
