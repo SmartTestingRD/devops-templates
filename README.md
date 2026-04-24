@@ -13,6 +13,13 @@ El objetivo principal es ser consumido por un agente/MCP, de manera que cuando s
   - [`/go`](./nixpacks/go/nixpacks.toml): Plantilla para aplicaciones en Go.
   - [`/monorepo-workspaces`](./nixpacks/monorepo-workspaces/nixpacks.toml): Plantilla genérica para arquitecturas de Workspaces (NPM, Yarn, pnpm).
   - [`/monorepo-turborepo`](./nixpacks/monorepo-turborepo/nixpacks.toml): Plantilla diseñada para Turborepo manipulando las construcciones con filtros.
+  - [`/legacy-monolith`](./nixpacks/legacy-monolith/nixpacks.toml): Plantilla para monolitos legacy donde un backend Node sirve un frontend SPA desde `frontend/dist/` bajo un único dominio.
+
+## Templates Nixpacks disponibles
+
+| Template | Descripción |
+| --- | --- |
+| [`legacy-monolith`](./nixpacks/legacy-monolith/README.md) | Backend Node (Express u otro) que sirve un frontend SPA ya construido desde `frontend/dist/`. Un solo dominio expone API + SPA; pensado para repos que no se pueden/quieren refactorizar. |
 
 ## ¿Qué es Nixpacks?
 
