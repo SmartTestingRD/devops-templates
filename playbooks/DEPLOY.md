@@ -25,11 +25,70 @@ Si falta el repo, pide al usuario que lo aclare antes de continuar.
 Si el usuario no especifica rama ni entorno, pregunta en qué rama
 está trabajando antes de continuar.
 
-## Paso 0 — Verificaciones previas
-1. Confirma que el repo existe y es accesible.
-2. Confirma que el proyecto del repo existe en Coolify con los 3
-   ambientes (dev, pre-prod, prod). Si no existe, PARA y ofrece
-   crearlo antes de continuar.
+## Paso 0 — Verificaciones previas y setup del proyecto
+
+### 0.1 — Verificar repo
+Confirma que el repo existe y es accesible en GitHub.
+
+### 0.2 — Verificar o crear proyecto en Coolify
+Busca en Coolify un proyecto con el mismo nombre que el repo.
+
+Si NO existe:
+1. Crea el proyecto con el nombre del repo.
+2. Crea exactamente 3 ambientes: dev, pre-prod, prod.
+3. Reporta los UUIDs del proyecto y cada ambiente.
+
+Si YA existe:
+1. Verifica que tenga los 3 ambientes (dev, pre-prod, prod).
+2. Si falta alguno, créalo.
+3. Reporta UUIDs.
+
+### 0.3 — Verificar o crear las 3 apps
+Para cada ambiente, crea una app si no existe:
+
+| Ambiente | Rama git | Nombre app | Dominio |
+|---|---|---|---|
+| dev | cualquier rama activa | <repo>-dev | <repo>-dev.smarttesting.com.do |
+| pre-prod | pre-prod | <repo>-pre-prod | <repo>-pre-prod.smarttesting.com.do |
+| prod | main | <repo> | <repo>.smarttesting.com.do |
+
+Parámetros comunes para las 3 apps:
+- Build pack: Nixpacks
+- Base Directory: /
+- Puerto: detectado del código, default 3001
+- Healthcheck: /health
+
+### 0.4 — Configurar webhooks automáticos
+Para cada app creada:
+1. Obtén el webhook secret via get_application
+   (campo manual_webhook_secret_github)
+2. Construye la URL del webhook:
+   https://coolify-mcp.smarttesting.com.do/api/v1/webhooks/source/github/events?api_token=<secret>
+3. Registra el webhook en GitHub usando el GITHUB_TOKEN del entorno:
+
+   POST https://api.github.com/repos/<org>/<repo>/hooks
+   Headers:
+     Authorization: Bearer <GITHUB_TOKEN>
+     Accept: application/vnd.github+json
+   Body:
+   {
+     "name": "web",
+     "active": true,
+     "events": ["push"],
+     "config": {
+       "url": "<webhook-url>",
+       "content_type": "json",
+       "secret": "<webhook-secret>"
+     }
+   }
+
+4. Reporta éxito o error por cada webhook.
+
+Regla de auto-deploy por rama (que Coolify aplicará al recibir
+el webhook):
+- Push a main → redeploya app de prod
+- Push a pre-prod → redeploya app de pre-prod
+- Push a cualquier otra rama → redeploya app de dev
 
 ## Paso 1 — Detectar tipo de proyecto
 Lee el README.md de cada template en
