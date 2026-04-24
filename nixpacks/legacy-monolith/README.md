@@ -1,5 +1,18 @@
 # legacy-monolith
 
+## Señales de detección
+El agente usa este template cuando el repo cumple TODAS estas señales:
+- package.json en la raíz con scripts start y build
+- Carpeta frontend/ con su propio package.json
+- vite en devDependencies del frontend
+- El backend referencia frontend/dist en el código fuente
+- NO tiene docker-compose.yml válido en la raíz
+
+Señales de exclusión (si alguna aplica, NO usar este template):
+- El repo es solo API sin frontend
+- El repo es solo frontend sin backend
+- Tiene Dockerfile propio y funcional
+
 Template Nixpacks para aplicaciones "monolito legacy" donde un backend Node
 (Express u otro) sirve un frontend SPA ya construido desde su propio
 `frontend/dist/`, exponiendo todo bajo un único dominio.
