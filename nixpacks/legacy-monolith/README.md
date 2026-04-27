@@ -8,10 +8,15 @@ El agente usa este template cuando el repo cumple TODAS estas señales:
 - El backend referencia frontend/dist en el código fuente
 - NO tiene docker-compose.yml válido en la raíz
 
-Señales de exclusión (si alguna aplica, NO usar este template):
+## Señales de exclusión
 - El repo es solo API sin frontend
 - El repo es solo frontend sin backend
-- Tiene Dockerfile propio y funcional
+- Tiene docker-compose.yml (sin punto al inicio) en la raíz
+  Y fue solicitado deploy con Docker explícitamente
+
+Nota: la presencia de Dockerfile o docker-compose.yaml solos
+NO excluye este template si el usuario no solicitó Docker
+explícitamente. Nixpacks ignora esos archivos.
 
 Template Nixpacks para aplicaciones "monolito legacy" donde un backend Node
 (Express u otro) sirve un frontend SPA ya construido desde su propio
