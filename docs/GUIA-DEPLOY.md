@@ -20,7 +20,7 @@ al pie de la letra para este deploy:
 - Repo: SmartTestingRD/<NOMBRE-DEL-REPO>
 - Rama: <RAMA>
 - Entorno: <dev | pre-prod | prod>
-- Nombre del proyecto en Coolify: <NOMBRE-DEL-PROYECTO>
+- Nombre del proyecto en Coolify: <NOMBRE-DEL-REPO>
 
 No improvises nada fuera del playbook. Si algo no está
 cubierto, PARA y pregúntame.
@@ -33,6 +33,18 @@ cubierto, PARA y pregúntame.
 - Detecta el framework y elige el template correcto
 - Crea las 3 apps con sus dominios
 - Configura las variables de entorno públicas
+
+### Regla importante — Rama vs Entorno
+| Entorno destino | Rama a usar |
+|---|---|
+| dev | cualquier rama excepto main y pre-prod |
+| pre-prod | pre-prod |
+| prod | main |
+
+Ejemplos:
+- Quiero deployar en dev → usa rama `dev` o `feature/algo`
+- Quiero deployar en pre-prod → usa rama `pre-prod`
+- Quiero deployar en prod → usa rama `main`
 
 ### 4. Cuando el agente pare y pida secretos:
 Ve a Coolify UI → proyecto → ambiente → app → Environment Variables
