@@ -90,6 +90,33 @@ el webhook):
 - Push a pre-prod → redeploya app de pre-prod
 - Push a cualquier otra rama → redeploya app de dev
 
+### Paso 0.3b — Crear base de datos (si el proyecto la necesita)
+
+Detecta si el repo necesita DB buscando en .env.example las
+variables: DATABASE_URL, PGHOST, PGDATABASE, PGUSER, PGPASSWORD.
+
+Si existen → crea automáticamente una DB Postgres en Coolify
+dentro del mismo proyecto y ambiente:
+
+Parámetros:
+- Nombre: <repo>-<entorno>-db
+- Database: <repo>_<entorno> (guiones reemplazados por guiones bajos)
+- User: <repo>_<entorno>_user
+- Password: autogenerada por Coolify (NO mostrar en chat)
+
+Después de crear la DB:
+1. Obtén el internal hostname de la DB creada
+2. Configura automáticamente estas env vars en la app:
+   - PGHOST = <internal hostname>
+   - PGDATABASE = <database name>
+   - PGUSER = <user>
+   - PGPORT = 5432
+   - DATABASE_URL = postgresql://<user>:<password>@<hostname>:5432/<database>
+3. Avisa al usuario: "DB creada. Solo falta PGPASSWORD —
+   cópiala de la UI de Coolify y agrégala como env var secreta."
+
+Si NO existen esas variables → omite este paso.
+
 ## Paso 1 — Detectar tipo de proyecto
 Lee el README.md de cada template en
 SmartTestingRD/devops-templates/nixpacks/ y compara sus
